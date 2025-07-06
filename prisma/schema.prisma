@@ -1,0 +1,258 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum role {
+  USER
+  ADMIN
+  SUPERADMIN
+}
+
+model User {
+  id             String        @id @default(cuid())
+  name           String
+  email          String        @unique
+  username       String        @unique
+  password       String
+  role           role          @default(USER)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  accessToken    String?
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String?
+  Ingredient     Ingredient[]
+  label          label[]
+  active         Boolean       @default(true)
+
+  @@map("users")
+}
+
+model Subscription {
+  id        String    @id @default(cuid())
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  users     User[]
+
+  @@map("subscriptions")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  name      String
+  nameAr    String
+  logo      String
+  logoAr    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  menus     menu[]
+  labels    label[]
+
+  @@map("brands")
+}
+
+model section {
+  id        String   @id @default(cuid())
+  name      String
+  nameAr    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  menu      menu?    @relation(fields: [menuId], references: [id])
+  menuId    String?
+  labels    label[]
+
+  @@map("sections")
+}
+
+model menu {
+  id        String    @id @default(cuid())
+  name      String
+  nameAr    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sections  section[]
+  Brand     Brand?    @relation(fields: [brandId], references: [id])
+  brandId   String?
+
+  @@map("menus")
+}
+
+model label {
+  id           String        @id @default(cuid())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  brand        Brand?        @relation(fields: [brandId], references: [id])
+  brandId      String?
+  ingredients  Ingredient[]
+  allergens    allergen[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  labelOptions labelOptions?
+  section      section?      @relation(fields: [sectionId], references: [id])
+  sectionId    String?
+
+  @@map("labels")
+}
+
+model labelOptions {
+  id                  String  @id @default(cuid())
+  label               label   @relation(fields: [labelId], references: [id])
+  labelId             String  @unique
+  vitamin_d           Boolean @default(false)
+  vitamin_b5          Boolean @default(false)
+  vitamin_b7          Boolean @default(false)
+  vitamin_b9          Boolean @default(false)
+  vitamin_a           Boolean @default(false)
+  vitamin_c           Boolean @default(false)
+  vitamin_e           Boolean @default(false)
+  vitamin_k           Boolean @default(false)
+  vitamin_b1          Boolean @default(false)
+  vitamin_b2          Boolean @default(false)
+  vitamin_b3          Boolean @default(false)
+  vitamin_b6          Boolean @default(false)
+  vitamin_b12         Boolean @default(false)
+  folic_acid          Boolean @default(false)
+  biotin              Boolean @default(false)
+  pantothenic         Boolean @default(false)
+  total_fat           Boolean @default(true)
+  saturated_fat       Boolean @default(true)
+  trans_fat           Boolean @default(true)
+  cholesterol         Boolean @default(true)
+  total_carbohydrates Boolean @default(true)
+  dietary_fiber       Boolean @default(true)
+  sugars              Boolean @default(true)
+  added_sugars        Boolean @default(true)
+  protein             Boolean @default(true)
+  fluoride            Boolean @default(false)
+  calcium             Boolean @default(false)
+  magnesium           Boolean @default(false)
+  phosphorus          Boolean @default(false)
+  potassium           Boolean @default(false)
+  sodium              Boolean @default(false)
+  chloride            Boolean @default(false)
+  iron                Boolean @default(false)
+  zinc                Boolean @default(false)
+  copper              Boolean @default(false)
+  manganese           Boolean @default(false)
+  selenium            Boolean @default(false)
+  molybdenum          Boolean @default(false)
+  chromium            Boolean @default(false)
+  iodine              Boolean @default(false)
+
+  @@map("label_options")
+}
+
+model Ingredient {
+  id            String     @id @default(cuid())
+  label         String
+  labelAr       String
+  description   String?
+  descriptionAr String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  labels        label[]
+  userId        String?
+  User          User?      @relation(fields: [userId], references: [id])
+  calories      Int        @default(0)
+  nutrients     Nutrient[]
+  vitamins      Vitamin[]
+  minerals      mineral[]
+  private       Boolean    @default(false)
+  active        Boolean    @default(true)
+
+  @@map("ingredients")
+}
+
+model allergen {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  label     label?   @relation(fields: [labelId], references: [id])
+  labelId   String?
+
+  @@map("allergens")
+}
+
+model Nutrient {
+  id                  Int         @id @default(autoincrement())
+  total_fat           Int         @default(0)
+  saturated_fat       Int         @default(0)
+  trans_fat           Int         @default(0)
+  cholesterol         Int         @default(0)
+  total_carbohydrates Int         @default(0)
+  dietary_fiber       Int         @default(0)
+  sugars              Int         @default(0)
+  added_sugars        Int         @default(0)
+  protein             Int         @default(0)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  Ingredient          Ingredient? @relation(fields: [ingredientId], references: [id])
+  ingredientId        String?
+
+  @@map("nutrients")
+}
+
+model Vitamin {
+  id           Int         @id @default(autoincrement())
+  vitamin_d    Int         @default(0)
+  vitamin_b5   Int         @default(0)
+  vitamin_b7   Int         @default(0)
+  vitamin_b9   Int         @default(0)
+  vitamin_a    Int         @default(0)
+  vitamin_c    Int         @default(0)
+  vitamin_e    Int         @default(0)
+  vitamin_k    Int         @default(0)
+  vitamin_b1   Int         @default(0)
+  vitamin_b2   Int         @default(0)
+  vitamin_b3   Int         @default(0)
+  vitamin_b6   Int         @default(0)
+  vitamin_b12  Int         @default(0)
+  folic_acid   Int         @default(0)
+  biotin       Int         @default(0)
+  pantothenic  Int         @default(0)
+  name         String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  Ingredient   Ingredient? @relation(fields: [ingredientId], references: [id])
+  ingredientId String?
+
+  @@map("vitamins")
+}
+
+model mineral {
+  id           Int         @id @default(autoincrement())
+  fluoride     Int         @default(0)
+  calcium      Int         @default(0)
+  magnesium    Int         @default(0)
+  phosphorus   Int         @default(0)
+  potassium    Int         @default(0)
+  sodium       Int         @default(0)
+  chloride     Int         @default(0)
+  iron         Int         @default(0)
+  zinc         Int         @default(0)
+  copper       Int         @default(0)
+  manganese    Int         @default(0)
+  selenium     Int         @default(0)
+  molybdenum   Int         @default(0)
+  chromium     Int         @default(0)
+  iodine       Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  Ingredient   Ingredient? @relation(fields: [ingredientId], references: [id])
+  ingredientId String?
+
+  @@map("minerals")
+}
