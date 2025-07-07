@@ -57,4 +57,35 @@ export class IngredientController {
         res.status(500).json({ message: 'Internal server error' })
     }
   }
+
+  static async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+      const { data } = req.body
+
+      const updatedIngredient = await IngredientService.update(id, data)
+      if (!updatedIngredient) {
+        return res.status(404).json({ message: 'Ingredient not found' })
+      }
+
+      res.json({ message: 'Ingredient successfully updated' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+
+      const deletedIngredient = await IngredientService.delete(id)
+      if (!deletedIngredient) {
+        return res.status(404).json({ message: 'Ingredient not found' })
+      }
+
+      res.json({ message: 'Ingredient successfully deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
 }

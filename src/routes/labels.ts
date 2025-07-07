@@ -6,3 +6,5 @@ export const labelRouter = Router()
 labelRouter.get("/:id", LabelController.getById)
 
 labelRouter.post("/", LabelController.create)
+labelRouter.put("/:id", LabelController.update)
+labelRouter.delete("/:id", LabelController.delete)

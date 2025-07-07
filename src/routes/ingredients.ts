@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { IngredientController } from "../controllers/ingredients";
 
-
 export const ingredientRouter = Router()
 
 ingredientRouter.get("/", IngredientController.getAll)
 ingredientRouter.get("/:id", IngredientController.getById)
+
 ingredientRouter.post("/", IngredientController.create)
+ingredientRouter.put("/:id", IngredientController.update) 
+ingredientRouter.delete("/:id", IngredientController.delete)
