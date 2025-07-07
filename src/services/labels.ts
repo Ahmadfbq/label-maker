@@ -13,6 +13,9 @@ export class LabelsService {
 
     static async create(data: {
         name: string
+        userId: string
+        brandId?: string
+        sectionId?: string
         ingredients: string[]
         allergens: string[]
         labelOptions?: {
@@ -22,7 +25,6 @@ export class LabelsService {
             calcium?: boolean
             iron?: boolean
         }
-        userId: string
     }) {
         const label = await prisma.label.findFirst({
             where: {
@@ -45,6 +47,8 @@ export class LabelsService {
             data: {
                 name: data.name,
                 userId: data.userId,
+                brandId: data.brandId,
+                sectionId: data.sectionId,
                 ingredients: {
                     connect: ingredientData
                 },
@@ -69,7 +73,6 @@ export class LabelsService {
             calcium?: boolean
             iron?: boolean
         }
-        userId?: string
     }) {
         const label = await prisma.label.findUnique({
             where: { id }

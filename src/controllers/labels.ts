@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { LabelsService } from '../services/labels'
 
-export class LabelController {
+export class LabelsController {
   static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params
@@ -22,11 +22,17 @@ export class LabelController {
       const data: {
         name: string
         userId: string
+        brandId?: string
         ingredients: string[]
         allergens: string[]
-        labelOptions: {
-          vitamin_d: boolean
+        labelOptions?: {
+          vitamin_d?: boolean
+          vitamin_b12?: boolean
+            vitamin_c?: boolean
+            calcium?: boolean
+            iron?: boolean
         }
+        sectionId?: string
       } = req.body
 
       const newLabel = await LabelsService.create(data)

@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma";
 
 export class BrandsService {
     static async getAll() {
-        return await prisma.brand.findMany();
+        return await prisma.brand.findMany()
     }
 
     static async getById(id: string) {
@@ -26,7 +26,7 @@ export class BrandsService {
             }
         })
 
-        if (brand) return true;
+        if (brand) return true
 
         const menuData = data.menus?.map(menuId => ({
             id: menuId
@@ -64,7 +64,7 @@ export class BrandsService {
             where: { id }
         })
 
-        if (!brand) return false;
+        if (!brand) return false
         const menuData = data.menus?.map(menuId => ({
             id: menuId
         })) ?? [];
@@ -95,7 +95,7 @@ export class BrandsService {
             where: { id }
         })
         
-        if(!brand) return false;
+        if(!brand) return false
         
         return await prisma.brand.delete({
             where: { id }

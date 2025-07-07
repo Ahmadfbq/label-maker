@@ -6,12 +6,12 @@ export class BrandsController {
         try {
             const brands = await BrandsService.getAll();
             if (!brands || brands.length === 0) {
-                return res.status(404).json({ message: 'No brands found' });
+                return res.status(404).json({ message: 'No brands found' })
             }
 
             res.json(brands);
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error' })
         }
     }
 
@@ -21,12 +21,12 @@ export class BrandsController {
 
             const brand = await BrandsService.getById(id);
             if (!brand) {
-                return res.status(404).json({ message: 'Brand not found' });
+                return res.status(404).json({ message: 'Brand not found' })
             }
 
             res.json(brand);
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error' })
         }
     }
 
@@ -47,9 +47,9 @@ export class BrandsController {
                 return res.status(409).json({ message: 'Brand already exists' })
             }
 
-            res.status(201).json({ message: 'Brand successfully created' });
+            res.status(201).json({ message: 'Brand successfully created' })
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error' })
         }
     }
 
@@ -59,13 +59,14 @@ export class BrandsController {
             const { data } = req.body
 
             const updatedBrand = await BrandsService.update(id, data)
+
             if (!updatedBrand) {
-                return res.status(404).json({ message: 'Brand not found' });
+                return res.status(404).json({ message: 'Brand not found' })
             }
 
             res.status(200).json({ message: 'Brand updated successfully' })
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Internal server error' })
         }
     }
 
@@ -74,6 +75,7 @@ export class BrandsController {
             const { id } = req.params
 
             const deletedBrand = await BrandsService.delete(id)
+            
             if (!deletedBrand) {
                 return res.status(404).json({ message: 'Brand not found' })
             }
