@@ -1,10 +1,10 @@
 import { Router } from "express"
 import { LabelController } from "../controllers/labels"
 
-export const labelRouter = Router()
+export const labelsRouter = Router()
 
-labelRouter.get("/:id", LabelController.getById)
+labelsRouter.get("/:id", LabelController.getById)
 
-labelRouter.post("/", LabelController.create)
-labelRouter.put("/:id", LabelController.update)
-labelRouter.delete("/:id", LabelController.delete)
+labelsRouter.post("/", LabelController.create)
+labelsRouter.put("/:id", LabelController.update)
+labelsRouter.delete("/:id", LabelController.delete)

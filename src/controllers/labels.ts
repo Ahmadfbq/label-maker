@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import { LabelService } from '../services/labels'
+import { LabelsService } from '../services/labels'
 
 export class LabelController {
   static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params
 
-      const label = await LabelService.getById(id)
+      const label = await LabelsService.getById(id)
       if (!label) {
         return res.status(404).json({ message: 'Label not found' })
       }
@@ -29,7 +29,7 @@ export class LabelController {
         }
       } = req.body
 
-      const newLabel = await LabelService.create(data)
+      const newLabel = await LabelsService.create(data)
 
       if (newLabel === true) {
         return res.status(409).json({ message: 'Label already created' })
@@ -46,7 +46,7 @@ export class LabelController {
       const { id } = req.params
       const { data } = req.body
 
-      const updatedLabel = await LabelService.update(id, data)
+      const updatedLabel = await LabelsService.update(id, data)
       if (!updatedLabel) {
         return res.status(404).json({ message: 'Label not found' })
       }
@@ -59,7 +59,7 @@ export class LabelController {
 
   static async delete(req: Request, res: Response) {
     try {
-      const deletedLabel = await LabelService.delete(req.params.id)
+      const deletedLabel = await LabelsService.delete(req.params.id)
       if (!deletedLabel) {
         return res.status(404).json({ message: 'Label not found' })
       }

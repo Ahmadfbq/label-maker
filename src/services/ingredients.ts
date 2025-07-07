@@ -1,8 +1,11 @@
 import { prisma } from "../lib/prisma";
 
 /*
+    IngredientsService class provides methods to interact with the ingredients in the database.
+    It includes methods to get all ingredients, get an ingredient by ID, create a new ingredient,
+    update an existing ingredient, and delete an ingredient.
 */
-export class IngredientService {
+export class IngredientsService {
     static async getAll() { // Fetches all ingredients from the database as an array, no filtering no sorting or pagination
         return await prisma.ingredient.findMany()
     }
@@ -25,7 +28,6 @@ export class IngredientService {
         minerals: number[]
         private: boolean
         active: boolean
-
     }) {
         const ingredient = await prisma.ingredient.findFirst({
             where: {
@@ -114,13 +116,13 @@ export class IngredientService {
                 userId: data.userId ?? ingredient.userId,
                 calories: data.calories ?? ingredient.calories,
                 nutrients: {
-                    connect: nutrientData
+                    set: nutrientData
                 },
                 vitamins: {
-                    connect: vitaminData
+                    set: vitaminData
                 },
                 minerals: {
-                    connect: mineralData
+                    set: mineralData
                 },
                 private: data.private ?? ingredient.private,
                 active: data.active ?? ingredient.active

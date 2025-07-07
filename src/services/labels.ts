@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 
-export class LabelService {
+export class LabelsService {
     static async getAll() {
         return await prisma.label.findMany()
     }

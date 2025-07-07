@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { IngredientController } from "../controllers/ingredients";
 
-export const ingredientRouter = Router()
+// Router for handling ingredient-related routes
+export const ingredientsRouter = Router()
 
-ingredientRouter.get("/", IngredientController.getAll)
-ingredientRouter.get("/:id", IngredientController.getById)
+ingredientsRouter.get("/", IngredientController.getAll)
+ingredientsRouter.get("/:id", IngredientController.getById)
 
-ingredientRouter.post("/", IngredientController.create)
-ingredientRouter.put("/:id", IngredientController.update) 
-ingredientRouter.delete("/:id", IngredientController.delete)
+ingredientsRouter.post("/", IngredientController.create)
+ingredientsRouter.put("/:id", IngredientController.update) 
+ingredientsRouter.delete("/:id", IngredientController.delete)

@@ -1,10 +1,15 @@
 import { Request, Response } from 'express'
-import { IngredientService } from '../services/ingredients'
+import { IngredientsService } from '../services/ingredients'
 
+/*
+    IngredientController class provides methods to handle HTTP requests related to ingredients.
+    It includes methods to get all ingredients, get an ingredient by ID, create a new ingredient,
+    update an existing ingredient, and delete an ingredient.
+*/
 export class IngredientController {
     static async getAll(req: Request, res: Response) {
         try {
-            const ingredients = await IngredientService.getAll()
+            const ingredients = await IngredientsService.getAll()
             if (!ingredients || ingredients.length === 0) {
                 return res.status(404).json({ message: 'No ingredients found' })
             }
@@ -19,7 +24,7 @@ export class IngredientController {
     try {
       const { id } = req.params
 
-      const ingredient = await IngredientService.getById(id)
+      const ingredient = await IngredientsService.getById(id)
       if (!ingredient) {
         return res.status(404).json({ message: 'Ingredient not found' })
       }
@@ -46,7 +51,7 @@ export class IngredientController {
             active: boolean
         } = req.body
 
-        const newIngredient = await IngredientService.create(data)
+        const newIngredient = await IngredientsService.create(data)
 
         if (newIngredient === true) {
             return res.status(409).json({ message: 'Ingredient already created' })
@@ -63,7 +68,7 @@ export class IngredientController {
       const { id } = req.params
       const { data } = req.body
 
-      const updatedIngredient = await IngredientService.update(id, data)
+      const updatedIngredient = await IngredientsService.update(id, data)
       if (!updatedIngredient) {
         return res.status(404).json({ message: 'Ingredient not found' })
       }
@@ -78,7 +83,7 @@ export class IngredientController {
     try {
       const { id } = req.params
 
-      const deletedIngredient = await IngredientService.delete(id)
+      const deletedIngredient = await IngredientsService.delete(id)
       if (!deletedIngredient) {
         return res.status(404).json({ message: 'Ingredient not found' })
       }
