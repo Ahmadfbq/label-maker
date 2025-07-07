@@ -3,8 +3,10 @@ import morgan from 'morgan'
 import { usersRouter } from './routes/users'
 import { authRouter } from './routes/auth'
 import { publicRouter } from './routes/public.routes'
-import { labelRouter } from './routes/labels'
-import { ingredientRouter } from './routes/ingredients'
+import { labelsRouter } from './routes/labels'
+import { ingredientsRouter } from './routes/ingredients'
+import { brandsRouter } from './routes/brands'
+import { menusRouter } from './routes/menus'
 import cors from 'cors'  
 
 // setup express app
@@ -17,8 +19,10 @@ app.use(express.urlencoded({ extended: true }))
 // urls
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/labels', labelRouter)
-app.use('/api/ingredients', ingredientRouter)
+app.use('/api/labels', labelsRouter)
+app.use('/api/ingredients', ingredientsRouter)
+app.use('/api/brands', brandsRouter)
+app.use('/api/menus', menusRouter)
 app.use('/api/public', publicRouter)
 
 // app.use((req, res, next) => {

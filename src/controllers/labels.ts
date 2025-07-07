@@ -2,6 +2,19 @@ import { Request, Response } from 'express'
 import { LabelsService } from '../services/labels'
 
 export class LabelsController {
+  static async getAll(req: Request, res: Response) {
+    try {
+      const labels = await LabelsService.getAll()
+      if (!labels || labels.length === 0) {
+        return res.status(404).json({ message: 'No labels found'})
+      }
+
+      res.json(labels)
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
   static async getById(req: Request, res: Response) {
     try {
       const { id } = req.params

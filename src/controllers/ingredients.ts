@@ -44,9 +44,9 @@ export class IngredientController {
             descriptionAr?: string
             userId?: string
             calories: number
-            nutrients: number[]
-            vitamins: number[]
-            minerals: number[]
+            nutrients: string[]
+            vitamins: string[]
+            minerals: string[]
             private: boolean
             active: boolean
         } = req.body
