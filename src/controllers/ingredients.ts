@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { IngredientService } from '../services/ingredient'
+import { IngredientService } from '../services/ingredients'
 
 export class IngredientController {
     static async getAll(req: Request, res: Response) {

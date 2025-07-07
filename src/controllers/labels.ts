@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { LabelService } from '../services/label'
+import { LabelService } from '../services/labels'
 
 export class LabelController {
   static async getById(req: Request, res: Response) {

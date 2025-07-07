@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { IngredientController } from "../controllers/ingredient";
+import { IngredientController } from "../controllers/ingredients";
 
 
 export const ingredientRouter = Router()
